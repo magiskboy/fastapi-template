@@ -8,7 +8,7 @@ from .settings import get_settings
 async def create_db_pool(check: bool = True):
     settings = get_settings()
     db_pool = await asyncpg.create_pool(
-        dsn=settings.database_url,
+        dsn=settings.database_uri,
     )
 
     if check:

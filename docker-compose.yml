@@ -8,7 +8,7 @@ services:
     networks:
       - mynet
     environment:
-      - DATABASE_URL=postgresql://postgres:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-postgres}?options=-csearch_path%3Demployees
+      - FASTAPI_DATABASE_URI=postgresql://postgres:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-postgres}?options=-csearch_path%3Demployees
     restart: unless-stopped
     deploy:
       replicas: ${API_REPLICAS:-1}

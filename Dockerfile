@@ -15,4 +15,4 @@ EXPOSE 8000
 ENV PYTHONPATH=/app
 ENV PATH="/app/.venv/bin:$PATH"
 
-CMD ["uvicorn", "app.api:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["./scripts/serve"]

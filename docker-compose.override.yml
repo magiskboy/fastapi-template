@@ -1,0 +1,9 @@
+services:
+  api:
+    command:
+      - ./scripts/dev
+    develop:
+      watch:
+        - path: "./"
+          action: sync
+          target: "/app"
