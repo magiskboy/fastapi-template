@@ -7,6 +7,34 @@ requires-python = ">=3.11"
 dependencies = [
     "asyncpg>=0.30.0",
     "fastapi>=0.116.1",
+    "httpx>=0.28.1",
     "pydantic-settings>=2.10.1",
     "uvicorn[standard]>=0.35.0",
+]
+
+[dependency-groups]
+dev = [
+    "pre-commit>=4.3.0",
+    "pytest>=8.4.2",
+    "pytest-cov>=7.0.0",
+    "ruff>=0.13.2",
+    "ty>=0.0.1a21",
+]
+
+[tool.ruff]
+exclude = [".venv"]
+line-length = 79
+
+[tool.ruff.format]
+quote-style = "single"
+
+[tool.ty.rules]
+no-matching-overload = "ignore"
+
+[tool.pytest.ini_options]
+markers = [
+]
+addopts = "-ra --cov=codev --cov-report=html --cov-report=lcov --cov-fail-under=70"
+testpaths = [
+    "tests",
 ]

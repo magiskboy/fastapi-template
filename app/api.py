@@ -14,15 +14,17 @@ async def lifespan(_: FastAPI):
     await db_pool.close()
 
 
-app = FastAPI(
-    lifespan=lifespan,
-)
+def create_app() -> FastAPI:
+    app = FastAPI(
+        lifespan=lifespan,
+    )
 
+    @app.get('/healthz')
+    async def healthz(request: Request):
+        async with request.state.db_pool.acquire() as conn:
+            conn = cast(asyncpg.Connection, conn)
+            await conn.execute('SELECT 42;')
 
-@app.get('/healthz')
-async def healthz(request: Request):
-    async with request.state.db_pool.acquire() as conn:
-        conn = cast(asyncpg.Connection, conn)
-        await conn.execute('SELECT 42;')
+        return Response('ok')
 
-    return Response('ok')
+    return app
