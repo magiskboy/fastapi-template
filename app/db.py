@@ -1,4 +1,5 @@
 from typing import cast
+from typing import cast, AsyncGenerator
 
 import asyncpg
 from fastapi import Request
@@ -6,7 +7,7 @@ from fastapi import Request
 from .settings import get_settings
 
 
-async def get_db_conn(request: Request) -> asyncpg.Connection:
+async def get_db_conn(request: Request) -> AsyncGenerator[asyncpg.Connection, None]:
     async with request.app.state.db_pool.acquire() as conn:
         yield conn
 
