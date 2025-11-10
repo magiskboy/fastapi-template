@@ -1,8 +1,8 @@
 from contextlib import asynccontextmanager
-from typing import cast
-import asyncpg
-from fastapi import FastAPI, Request, Response
+from fastapi import FastAPI
 from .db import create_db_pool
+from .health.views import health_router
+from .pet_router import pet_router
 
 
 @asynccontextmanager
@@ -19,12 +19,7 @@ def create_app() -> FastAPI:
         lifespan=lifespan,
     )
 
-    @app.get('/healthz')
-    async def healthz(request: Request):
-        async with request.state.db_pool.acquire() as conn:
-            conn = cast(asyncpg.Connection, conn)
-            await conn.execute('SELECT 42;')
-
-        return Response('ok')
+    app.include_router(health_router)
+    app.include_router(pet_router)
 
     return app

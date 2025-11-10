@@ -1,8 +1,14 @@
 from typing import cast
 
 import asyncpg
+from fastapi import Request
 
 from .settings import get_settings
+
+
+async def get_db_conn(request: Request) -> asyncpg.Connection:
+    async with request.app.state.db_pool.acquire() as conn:
+        yield conn
 
 
 async def create_db_pool(check: bool = True):
